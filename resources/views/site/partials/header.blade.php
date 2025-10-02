@@ -28,7 +28,7 @@
             }
 
             .left-header-sub-iso{
-                left: -8px !important; /* ISSN */
+                left: 0px !important; /* ISSN */
                 font-size:12px !important;
                 margin-top:6px;
                 opacity:.9;
@@ -48,14 +48,40 @@
             }
         }
 
+
+
+        /* Nền đỏ bo tròn quanh logo */
+        .logo-badge{
+            display:inline-flex;            /* ô bọc khít theo nội dung */
+            align-items:center;
+            justify-content:center;
+            background:#d62828;             /* đỏ */
+            color:#fff;
+            padding:6px 10px;               /* khoảng trắng quanh ảnh */
+            border-radius:12px;             /* bo tròn */
+            line-height:0;                  /* loại bỏ khoảng thừa dưới ảnh */
+            box-shadow:0 2px 6px rgba(0,0,0,.08);
+        }
+
+        /* Ảnh hiển thị gọn trong nền đỏ */
+        .logo-badge img{
+            display:block;
+            max-height:81px;                /* chỉnh tùy header */
+            width:auto;
+        }
+
+        /* Responsive nhỏ hơn trên mobile */
+        @media (max-width: 576px){
+            .logo-badge{ padding:4px 8px; border-radius:10px; }
+            .logo-badge img{ max-height:40px; }
+        }
+
     </style>
     <!-- top bar -->
     <div class="top-bar fl-wrap">
         <div class="top-bar-container">
             <div class="logo-header">
-                <!-- logo holder  -->
-{{--                <a href="" class="logo-holder"><img src="/site/images/logo1.png" alt=""></a>--}}
-                <a href="{{ route('front.home-page') }}" class="logo-holder" style="margin-bottom: 5px"><img src="{{ $config->image->path ?? '' }}" alt=""></a>
+                <a href="{{ route('front.home-page') }}" class="logo-holder logo-badge" style="margin-bottom: 5px"><img src="{{ $config->image->path ?? '' }}" alt=""></a>
                 <div class="left-header-sub-iso">
                     ISSN: 0868 - 3808
                 </div>
@@ -99,7 +125,7 @@
             }
             .left-header-sub-iso {
                 position: relative;
-                left: -18px;
+                left: -8px;
                 text-transform: uppercase;
                 font-family: "STIX Two Text", serif;
                 font-optical-sizing: auto;

@@ -30,6 +30,7 @@
                 author: this.author,
                 page: this.page,
                 phone_number: this.phone_number,
+                sort_order: this.sort_order,
             }
             data = jsonToFormData(data);
 

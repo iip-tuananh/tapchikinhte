@@ -100,8 +100,8 @@
         .ck-content u                      { text-decoration: underline !important; }
 
         /* Danh sách hiển thị chấm/số và có thụt lề */
-        .ck-content ul { list-style: disc inside !important; margin-left: 1.25rem; }
-        .ck-content ol { list-style: decimal inside !important; margin-left: 1.25rem; }
+        .ck-content ul { list-style: disc inside !important; }
+        .ck-content ol { list-style: decimal inside !important;  }
 
         /* Blockquote cho dễ nhìn */
         .ck-content blockquote {

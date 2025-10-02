@@ -71,13 +71,7 @@
                                 <a class="post-category-marker" href="#">{{ $blog->category->name ?? '' }}</a>
                                 <div class="clearfix"></div>
                                 <h1>{{ $blog->name }}
-                                    @if($blog->is_hot == 1)
-                                        <span class="hot-badge"
-                                              title="Bài viết nổi bật">
-                                                                  <span class="hot-badge__icon" aria-hidden="true">🔥</span>
-                                                                  <span class="hot-badge__text">Tin hot</span>
-                                                                 </span>
-                                    @endif
+
                                 </h1>
                                 <div class="clearfix"></div>
                                 <div class="author-link"><a href="#"><img src="/site/images/avatar/2.jpg" alt="">
@@ -280,9 +274,8 @@
 
                                 <div class="single-post-content_text {{ $canRead ? '' : 'is-locked' }} editor-content" id="font_chage">
                                     {!! $blog->body !!}
-
-
                                 </div>
+
                                 <div class="single-post-footer fl-wrap">
                                     <div class="post-single-tags">
                                         <span class="tags-title"><i class="fas fa-tag"></i> Tags : </span>

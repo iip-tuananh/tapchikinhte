@@ -134,7 +134,7 @@ class FrontController extends Controller
         $highlightCate = CategorySpecial::query()->where('id', 11)->first();
         $highlightPosts = $highlightCate->posts()->with(['image', 'category'])
             ->where('status', 1)->latest()->limit(5)->get();
-        $news = Partner::query()->latest()->get();
+        $news = Partner::query()->orderBy('sort_order')->get();
 
         return view('site.home', compact('popularPosts','postsRecent', 'banners1', 'banners2', 'banners3', 'categories', 'popularCate', 'highlightPosts', 'highlightCate', 'news'));
     }

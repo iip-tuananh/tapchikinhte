@@ -57,7 +57,7 @@ class Partner extends BaseModel
             $result = $result->where('name', 'like', '%'.$request->name.'%');
         }
 
-        $result = $result->orderBy('created_at','desc')->get();
+        $result = $result->orderBy('sort_order','asc')->get();
         return $result;
     }
 

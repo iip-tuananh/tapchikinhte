@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Recruitments\RecruitmentStoreRequest;
+use App\Model\Admin\Partner;
 use App\Model\Admin\Project;
 use App\Model\Admin\Recruitment;
 use Illuminate\Http\Request;
@@ -140,6 +141,7 @@ class RecruitmentController extends Controller
         );
         return redirect()->route($this->route.'.index')->with($message);
     }
+
 
 
     // Xuất Excel

@@ -74,6 +74,7 @@ class Kernel extends HttpKernel
         'auth.customer.home' => \App\Http\Middleware\RedirectIfCustomerUnauthenticated::class,
 
         'customer.active' => \App\Http\Middleware\EnsureCustomerIsActive::class,
+        'user.active' => \App\Http\Middleware\EnsureUserIsActive::class,
     ];
 
     /**

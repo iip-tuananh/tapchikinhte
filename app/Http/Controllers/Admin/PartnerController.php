@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\FileHelper;
+use App\Model\Admin\Partner;
 use Illuminate\Http\Request;
 use App\Model\Admin\Partner as ThisModel;
 use Illuminate\Support\Facades\Response;
@@ -70,6 +71,7 @@ class PartnerController extends Controller
             [
                 'name' => 'required|max:255',
                 'author' => 'required',
+                'sort_order' => 'required|integer',
             ]
         );
         $json = new stdClass();
@@ -88,6 +90,7 @@ class PartnerController extends Controller
             $object->name = $request->name;
             $object->author = $request->author;
             $object->page = $request->page;
+            $object->sort_order = $request->sort_order;
             $object->created_by = auth()->id();
             $object->save();
 
@@ -122,6 +125,7 @@ class PartnerController extends Controller
             [
                 'name' => 'required|max:255',
                 'author' => 'required',
+                'sort_order' => 'required|integer',
             ]
         );
         $json = new stdClass();
@@ -139,6 +143,7 @@ class PartnerController extends Controller
             $object->name = $request->name;
             $object->author = $request->author;
             $object->page = $request->page;
+            $object->sort_order = $request->sort_order;
             $object->updated_by = auth()->id();
 
             $object->save();
@@ -176,6 +181,16 @@ class PartnerController extends Controller
 
 
         return redirect()->route($this->route.'.index')->with($message);
+    }
+
+    public function updateSortOrder(Request $request)
+    {
+        $order = $request->input('order', []);
+        foreach ($order as $item) {
+            Partner::where('id', $item['id'])->update(['sort_order' => $item['sort']]);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 
     public function getDataForEdit($id) {

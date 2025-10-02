@@ -46,17 +46,51 @@
                        </div>
                     </div> -->
                 </div>
+                <style>
+                    .footer-widget-title{
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    }
+
+                    /* nền đỏ bo tròn quanh logo */
+                    .footer-logo-badge{
+                        display:inline-flex;
+                        align-items:center;
+                        justify-content:center;
+                        background:#d62828;           /* đỏ */
+                        color:#fff;
+                        padding:8px 12px;              /* khoảng trắng quanh logo */
+                        border-radius:14px;            /* bo tròn */
+                        line-height:0;                 /* bỏ khoảng thừa dưới img */
+                        box-shadow:0 2px 8px rgba(0,0,0,.08);
+                        text-decoration:none;
+                    }
+
+                    /* ảnh bên trong */
+                    .footer-logo-badge img{
+                        display:block;
+                        max-height:102px;               /* chỉnh theo footer của bạn */
+                        width:auto;
+                    }
+
+                    /* Mobile nhỏ hơn */
+                    @media (max-width:576px){
+                        .footer-logo-badge{ padding:6px 10px; border-radius:12px; }
+                        .footer-logo-badge img{ max-height:48px; }
+                    }
+                </style>
                 <!-- footer-widget  end-->
                 <!-- footer-widget -->
                 <div class="col-md-4">
                     <div class="footer-widget text-center">
-                        <div class="footer-widget-title">
-                            <a href="" ><img src="{{ $config->image->path ?? '' }}" alt="" style="width: 65%;"></a>
+                        <div class="footer-widget-title" >
+                            <a href="" class="footer-logo-badge"><img src="{{ $config->image->path ?? '' }}" alt="" style="width: 100%;"></a>
                         </div>
                         <div class="footer-widget-content">
-                            <!-- <div class="footer-widget-sub-iso">
+                           <div class="footer-widget-sub-iso">
                                ISSN: 0868 - 3808
-                            </div> -->
+                            </div>
                         </div>
                         <style>
                             .footer-widget .footer-widget-content .footer-widget-sub-iso {
@@ -67,8 +101,8 @@
                                 font-style: normal;
                                 font-size: 20px;
                                 padding: 6px 15px;
-                                color: #c0121c;
-                                background-color: #fff;
+                                color: #fff;
+                                /*background-color: #fff;*/
                                 display: inline-block;
                                 margin-top: 10px;
                             }

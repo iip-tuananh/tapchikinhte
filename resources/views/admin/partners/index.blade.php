@@ -34,6 +34,8 @@ Thêm bản tin số mới nhất
 
 @section('script')
 @include('admin.partners.Partner')
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
 <script>
     let datatable = new DATATABLE('table-list', {
         ajax: {
@@ -47,6 +49,14 @@ Thêm bản tin số mới nhất
             {data: 'name', title: 'Tiêu đề'},
             {data: 'author', title: 'Tác giả'},
             {data: 'page', title: 'Số trang', className: "text-center"},
+            {
+                data: 'sort_order',
+                title: 'Thứ tự hiển thị',
+                className: 'text-center',
+                render: function (data, type, row) {
+                    return `<span class="badge bg-primary">${data}</span>`;
+                }
+            },
             {data: 'updated_at', title: 'Ngày cập nhật'},
             {data: 'updated_by', title: 'Người cập nhật'},
             {data: 'action', orderable: false, title: "Hành động"}
@@ -55,7 +65,46 @@ Thêm bản tin số mới nhất
             {data: 'name', search_type: "text", placeholder: "Tiêu đề"},
         ],
         create_modal_2: true
-    }).datatable;
+    }).datatable.on('draw', function () {
+        $('#table-list tbody').sortable({
+            helper: function (e, ui) {
+                ui.children().each(function () {
+                    $(this).width($(this).width());
+                });
+                return ui;
+            },
+            update: function (event, ui) {
+                let newOrder = [];
+
+                $('#table-list tbody tr').each(function (index) {
+                    const rowData = datatable.row(this).data();
+                    if (rowData) {
+                        newOrder.push({
+                            id: rowData.id,
+                            sort: index + 1
+                        });
+                    }
+                });
+
+                $.ajax({
+                    url: '/admin/news-digital/updateSortOrder',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN
+                    },
+                    data: {
+                        order: newOrder
+                    },
+                    success: function (res) {
+                        datatable.ajax.reload();
+                    },
+                    error: function () {
+                        alert('Có lỗi khi cập nhật thứ tự');
+                    }
+                });
+            }
+        }).disableSelection();
+    });
 
     createReviewCallback = (response) => {
         datatable.ajax.reload();

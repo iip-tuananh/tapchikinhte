@@ -12,7 +12,7 @@ Route::prefix('admin')
             Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
         });
 
-        Route::middleware('auth:admin')->group(function () {
+        Route::middleware(['auth:admin', 'user.active'])->group(function () {
             Route::get('dang-xuat','Auth\LoginController@logout')->name('logout');
             Route::get('/login-page',function() {
                 return view('layouts.login');
@@ -441,6 +441,7 @@ Route::prefix('admin')
                 Route::post('/', 'Admin\PartnerController@store')->name('partners.store');
                 Route::post('/{id}/update', 'Admin\PartnerController@update')->name('partners.update');
                 Route::get('/{id}/delete', 'Admin\PartnerController@delete')->name('partners.delete');
+                Route::post('/updateSortOrder', 'Admin\PartnerController@updateSortOrder')->name('partners.updateSortOrder');
                 Route::get('/{id}/getDataForEdit', 'Admin\PartnerController@getDataForEdit');
                 Route::get('/exportExcel','Admin\PartnerController@exportExcel')->name('partners.exportExcel');
             });
