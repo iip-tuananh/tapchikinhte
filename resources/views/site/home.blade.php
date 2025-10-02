@@ -37,7 +37,7 @@
                                 text-align: justify;
                                 line-height: 1.5;
                                 display: -webkit-box;
-                                -webkit-line-clamp: 3;
+                                -webkit-line-clamp: 2;
                                 -webkit-box-orient: vertical;
                                 overflow: hidden;
                             }
@@ -151,9 +151,9 @@
                                                                     <div class="post-widget-item-media">
                                                                         <a href="/{{ $post->slug }}"><img src="{{ $post->image->path ?? '' }}"  alt=""></a>
                                                                     </div>
-                                                                    <div class="post-widget-item-content">
+                                                                    <div class="post-widget-item-content" style="padding-top: 0 !important;">
                                                                         <h4><a href="/{{ $post->slug }}">{{ $post->name }}</a></h4>
-                                                                        <ul class="pwic_opt" style="display: inline-block">
+                                                                        <ul class="pwic_opt" style="display: flex; justify-content: left">
                                                                             <li><span><i class="far fa-clock"></i>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</span></li>
 
                                                                         </ul>
