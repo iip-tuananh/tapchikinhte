@@ -51,7 +51,7 @@ p {
 	line-height:24px;
 	padding-bottom:10px;
 	font-weight: 500;
- 	color: #5e646a;
+ 	color: #000000;
 }
 blockquote {
 	float:left;
@@ -99,7 +99,8 @@ blockquote:before {
 	position: relative;
 }
 .container{
-	max-width: 1491px;
+	/*max-width: 1491px;*/
+	max-width: 1380px;
 	width: 98%;
 	margin:0 auto;
 	position: relative;
@@ -209,7 +210,8 @@ blockquote:before {
 
 .top-bar.scroll-sticky {
 	height: 0;
-	padding: 2px;
+	/*padding: 2px;*/
+	padding: 0px;
 }
 
 @media only screen and  (max-width: 768px) {
@@ -1128,9 +1130,12 @@ blockquote:before {
 	display: none;
 }
 #ajax-content {
+    padding-bottom: 40px;
     /*padding: 0 0 10px 20px;*/
     overflow: hidden;
-    height: auto;min-height: 450px}
+    height: auto;
+    /*min-height: 450px*/
+}
 /*------  Section ------------------------------------------------------*/
 section {
 	float:left;
@@ -1681,7 +1686,7 @@ section {
 }
 /*------ footer-------------------------------------------------*/
 .main-footer {
-	background: #ea1e16;
+	background: #1F5DA6;
 }
 .footer-widget-title {
     text-align: left;

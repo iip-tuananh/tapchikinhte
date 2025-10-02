@@ -87,6 +87,30 @@
             /* hoặc height: 420px; nếu muốn cố định */
         }
     </style>
+
+    <style>
+        /* Dành cho khung soạn thảo */
+        .ck-content {
+            font-weight: 400;                /* weight mặc định */
+        }
+
+        /* Bold/italic/underline phải hiện đúng */
+        .ck-content strong, .ck-content b { font-weight: 700 !important; }
+        .ck-content em, .ck-content i      { font-style: italic !important; }
+        .ck-content u                      { text-decoration: underline !important; }
+
+        /* Danh sách hiển thị chấm/số và có thụt lề */
+        .ck-content ul { list-style: disc inside !important; margin-left: 1.25rem; }
+        .ck-content ol { list-style: decimal inside !important; margin-left: 1.25rem; }
+
+        /* Blockquote cho dễ nhìn */
+        .ck-content blockquote {
+            border-left: 3px solid #e5e7eb;
+            margin: .75rem 0; padding: .5rem .75rem;
+            color: #555;
+        }
+
+    </style>
     <div class="content">
         <section>
             <div class="submit-article" ng-controller="Post" ng-cloak>
@@ -137,10 +161,22 @@
                             </div>
 
 
+{{--                            <div class="sa-field sa-field--full">--}}
+{{--                                <label for="contentEditor">Nội dung bài viết</label>--}}
+{{--                                <textarea id="contentEditor" name="content_html"></textarea>--}}
+{{--                                <small class="sa-hint">Trình soạn thảo hỗ trợ định dạng, ảnh, tiêu đề...</small>--}}
+{{--                            </div>--}}
+
+
                             <div class="sa-field sa-field--full">
-                                <label for="contentEditor">Nội dung bài viết</label>
-                                <textarea id="contentEditor" name="content_html"></textarea>
-                                <small class="sa-hint">Trình soạn thảo hỗ trợ định dạng, ảnh, tiêu đề...</small>
+                                <label>Nội dung bài viết</label>
+
+                                <div id="contentEditor" class="ck-content" style="min-height:280px;"></div>
+
+
+                                <textarea id="content_html" name="content_html" hidden></textarea>
+
+                                <small class="sa-hint">Trình soạn thảo hỗ trợ định dạng cơ bản.</small>
                             </div>
 
                             <div class="sa-field sa-field--full">
@@ -302,7 +338,8 @@
 
 @push('scripts')
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
     <script>
         (function(){
             // Char counter for title
@@ -311,12 +348,28 @@
             const updateCount = () => titleCount.textContent = (title.value || '').length;
             title.addEventListener('input', updateCount); updateCount();
 
-            // CKEditor init
-            let editorInstance = null;
+            let editor;
+
             ClassicEditor.create(document.querySelector('#contentEditor'), {
-                toolbar: ['heading','|','bold','italic','underline','link','bulletedList','numberedList','blockQuote','insertTable','undo','redo']
-            }).then(editor => { window._ck = editor; editorInstance = editor; })
-                .catch(console.error);
+                toolbar: ['heading','|','bold','italic','link','|','bulletedList','numberedList','|','blockQuote','|','undo','redo']
+            }).then(e => {
+                editor = e;
+                // nếu form edit có sẵn dữ liệu, đổ vào editor
+                const hidden = document.getElementById('content_html');
+                if (hidden.value) editor.setData(hidden.value);
+
+                // luôn đồng bộ về textarea mỗi khi gõ
+                editor.model.document.on('change:data', () => {
+                    hidden.value = editor.getData();
+                });
+
+                // tiện: expose để nơi khác có thể gọi
+                window._ck = editor;
+            }).catch(console.error);
+
+
+
+
 
             // Dropzone + file validation
             const dropzone = document.getElementById('dropzone');

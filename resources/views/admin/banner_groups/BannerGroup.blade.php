@@ -58,9 +58,15 @@
             if (image) data.append('image', image);
 
             this.galleries.forEach((g, i) => {
-                if (g.id) data.append(`galleries[${i}][id]`, g.id);
+                if (g.id) {
+                    data.append(`galleries[${i}][id]`, g.id);
+                    data.append(`galleries[${i}][caption]`, g.caption ?? '');
+                }
                 let gallery = g.image.submit_data;
-                if (gallery) data.append(`galleries[${i}][image]`, gallery);
+                if (gallery) {
+                    data.append(`galleries[${i}][image]`, gallery);
+                    data.append(`galleries[${i}][caption]`, g.caption ?? '');
+                }
                 else data.append(`galleries[${i}][image_obj]`, g.id);
             })
 

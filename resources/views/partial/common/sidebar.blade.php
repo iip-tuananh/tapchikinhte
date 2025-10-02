@@ -24,8 +24,8 @@
                 </a>
             </li>
 
-            <li class="nav-item has-treeview   {{ request()->is('admin/banner-groups') ? 'menu-open' : '' }} ">
-                <a href="#" class="nav-link {{ request()->is('admin/banner-groups') ? 'active' : '' }}">
+            <li class="nav-item has-treeview   {{ request()->is('admin/banner-groups') || request()->is('admin/news-digital') ? 'menu-open' : '' }} ">
+                <a href="#" class="nav-link {{ request()->is('admin/banner-groups') || request()->is('admin/news-digital') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-info"></i>
                     <p>
                         Cấu hình trang chủ
@@ -39,7 +39,12 @@
                             <p>Khối banner</p>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="{{ route('partners.index') }}" class="nav-link {{ Request::routeIs('partners.index') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Bản tin số mới nhất</p>
+                        </a>
+                    </li>
 
 {{--                    <li class="nav-item">--}}
 {{--                        <a href="{{ route('whyUs.edit') }}" class="nav-link {{ Request::routeIs('whyUs.edit') ? 'active' : '' }}">--}}

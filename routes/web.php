@@ -433,7 +433,7 @@ Route::prefix('admin')
             });
 
             // đối tác
-            Route::group(['prefix' => 'partners'], function () {
+            Route::group(['prefix' => 'news-digital'], function () {
                 Route::get('/', 'Admin\PartnerController@index')->name('partners.index');
                 Route::get('/searchData', 'Admin\PartnerController@searchData')->name('partners.searchData');
                 Route::get('/{id}/show', 'Admin\PartnerController@show')->name('partners.show');

@@ -55,10 +55,10 @@
             <div class="logo-header">
                 <!-- logo holder  -->
 {{--                <a href="" class="logo-holder"><img src="/site/images/logo1.png" alt=""></a>--}}
-                <a href="{{ route('front.home-page') }}" class="logo-holder"><img src="{{ $config->image->path ?? '' }}" alt=""></a>
-{{--                <div class="left-header-sub-iso">--}}
-{{--                    ISSN: 0868 - 3808--}}
-{{--                </div>--}}
+                <a href="{{ route('front.home-page') }}" class="logo-holder" style="margin-bottom: 5px"><img src="{{ $config->image->path ?? '' }}" alt=""></a>
+                <div class="left-header-sub-iso">
+                    ISSN: 0868 - 3808
+                </div>
             </div>
             <div class="left-header text-center">
                 <div class="left-header-title">

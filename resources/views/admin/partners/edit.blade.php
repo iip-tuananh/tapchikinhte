@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="semi-bold">Chỉnh sửa đối tác</h4>
+                <h4 class="semi-bold">Chỉnh sửa</h4>
             </div>
             <div class="modal-body">
                 @include('admin.partners.form')
@@ -32,7 +32,7 @@
         $scope.loading = {};
         // Submit Form sửa
         $scope.submit = function () {
-            let url = "/admin/partners/" + $scope.form.id + "/update";
+            let url = "/admin/news-digital/" + $scope.form.id + "/update";
             $scope.loading.submit = true;
             $.ajax({
                 type: "POST",

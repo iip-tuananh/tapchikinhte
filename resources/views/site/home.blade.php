@@ -20,7 +20,13 @@
                                 <div class="box-widget-content">
                                     <!-- content-tabs-wrap -->
                                     @foreach($banners1->galleries as $gallery)
-                                        <img src="{{ $gallery->image->path ?? '' }}" alt="" style="width: 100%; height: 300px; margin-bottom: 50px; border-radius: 4px;">
+                                        @php $url = $gallery->caption ?? ''; @endphp
+                                        <a href="{{ $url }}"
+                                           target="_blank" rel="noopener" class="banner-link">
+                                            <img src="{{ $gallery->image->path ?? '' }}"  href="{{ $gallery->caption }}"
+                                                 alt="" style="width: 100%; height: 300px; margin-bottom: 50px; border-radius: 4px;">
+                                        </a>
+
                                     @endforeach
                                     <!-- content-tabs-wrap end -->
                                 </div>
@@ -44,6 +50,93 @@
                         </style>
                         <!-- sidebar  end -->
                     </div>
+                    <style>
+                        :root{
+                            --ink:#0f172a;          /* text chính */
+                            --muted:#475569;        /* text phụ */
+                            --line:#e5e7eb;         /* màu viền */
+                            --line-2:#eef2f7;
+                            --hover:#f8fafc;        /* màu hover nhẹ */
+                            --radius:12px;
+                        }
+
+                        .toc-list{
+                            list-style:none;
+                            margin:0;
+                            padding:0;
+                            border:1px solid var(--line);
+                            border-radius:var(--radius);
+                            overflow:hidden;        /* bo góc trên mobile */
+                            background:#fff;
+                        }
+
+                        .toc-item{
+                            padding:14px 16px;
+                            border-top:1px solid var(--line-2);
+                            transition:background .15s ease;
+                        }
+                        .toc-item:first-child{ border-top:0; }
+                        .toc-item:hover{ background:var(--hover); }
+
+                        .toc-row{
+                            display:grid;
+                            grid-template-columns: 1fr auto;
+                            align-items:baseline;
+                            column-gap:12px;
+                        }
+
+                        .toc-title{
+                            text-align: justify;
+                            font-size: .95rem;
+                            color:var(--ink);
+                            font-weight:600;
+                            line-height:1.5;
+                            text-decoration:none;
+                        }
+                        .toc-title:focus, .toc-title:hover{ text-decoration:underline; }
+
+                        .toc-page{
+                            min-width:36px;
+                            padding-left:12px;
+                            text-align:right;
+                            font-weight:700;
+                            color:#334155;
+                            border-left:1px solid var(--line);
+                        }
+
+                        .toc-author{
+                            margin-top:6px;
+                            color:var(--muted);
+                            font-size:.93rem;
+                            line-height:1.4;
+                            text-align: right;
+                            /* nếu muốn in nghiêng giống mẫu */
+                            /* font-style: italic; */
+                        }
+
+                        /* ====== Responsive ====== */
+                        @media (max-width: 768px){
+                            .toc-item{ padding:12px 14px; }
+                            .toc-title{ font-size:1rem; }
+                            .toc-page{ min-width:32px; }
+
+                            .toc-author{
+                                text-align: start;
+                            }
+                        }
+
+                        @media (max-width: 480px){
+                            /* Clamp tiêu đề tối đa 2 dòng cho gọn */
+                            .toc-title{
+                                text-align: justify;
+                                display:-webkit-box;
+                                -webkit-line-clamp:2;
+                                -webkit-box-orient:vertical;
+                                overflow:hidden;
+                            }
+                            .toc-author{ font-size:.9rem; }
+                        }
+                    </style>
                     <div class="col-md-6 order-2 order-md-1">
                         <div class="main-container fl-wrap fix-container-init">
                             <div class="section-title">
@@ -55,45 +148,56 @@
                                 <div class="ajax-loader"><img src="https://gmag.kwst.net/images/loading.gif" alt=""/></div>
                                 <div id="ajax-content" class="fl-wrap">
                                     <div class="list-post-wrap">
+                                        <ol class="toc-list">
+                                            @foreach($news as $record)
+                                                <li class="toc-item">
+                                                    <div class="toc-row">
+                                                        <a class="toc-title" href="#">{{ $record->name }}</a>
+                                                        <span class="toc-page">{{ $record->page }}</span>
+                                                    </div>
+                                                    <div class="toc-author">{{ $record->author }}</div>
+                                                </li>
+                                            @endforeach
 
-                                        @foreach($postsRecent as $postRecent)
-                                            <div class="list-post fl-wrap">
-                                                <div class="list-post-media">
-                                                    <a href="/{{ $postRecent->slug }}">
-                                                        <div class="bg-wrap">
-                                                            <div class="bg" data-bg="{{ $postRecent->image->path ?? '' }}"
-                                                                 style="background-image: url({{ $postRecent->image->path ?? '' }}) "
-                                                            ></div>
-                                                        </div>
-                                                    </a>
-
-
-                                                    <span class="post-media_title">© Image Copyrights Title</span>
-                                                </div>
-
-                                                <div class="list-post-content">
-                                                    <a class="post-category-marker" href="#">
-                                                        {{ $postRecent->category->name ?? '' }}
-                                                    </a>
-
-                                                    <h3 class="post-title">
-                                                        <a href="/{{ $postRecent->slug }}">{{ $postRecent->name }}</a>
-
-
-                                                    </h3>
-
-                                                    <span class="post-date">
-    <i class="far fa-clock"></i>
-    {{ \Illuminate\Support\Carbon::parse($postRecent->created_at)->format('d/m/Y') }}
-  </span>
+                                        </ol>
+{{--                                        @foreach($postsRecent as $postRecent)--}}
+{{--                                            <div class="list-post fl-wrap">--}}
+{{--                                                <div class="list-post-media">--}}
+{{--                                                    <a href="/{{ $postRecent->slug }}">--}}
+{{--                                                        <div class="bg-wrap">--}}
+{{--                                                            <div class="bg" data-bg="{{ $postRecent->image->path ?? '' }}"--}}
+{{--                                                                 style="background-image: url({{ $postRecent->image->path ?? '' }}) "--}}
+{{--                                                            ></div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </a>--}}
 
 
-                                                    <p>{{ $postRecent->intro }}</p>
-                                                </div>
+{{--                                                    <span class="post-media_title">© Image Copyrights Title</span>--}}
+{{--                                                </div>--}}
 
-                                            </div>
+{{--                                                <div class="list-post-content">--}}
+{{--                                                    <a class="post-category-marker" href="#">--}}
+{{--                                                        {{ $postRecent->category->name ?? '' }}--}}
+{{--                                                    </a>--}}
 
-                                        @endforeach
+{{--                                                    <h3 class="post-title">--}}
+{{--                                                        <a href="/{{ $postRecent->slug }}">{{ $postRecent->name }}</a>--}}
+
+
+{{--                                                    </h3>--}}
+
+{{--                                                    <span class="post-date">--}}
+{{--    <i class="far fa-clock"></i>--}}
+{{--    {{ \Illuminate\Support\Carbon::parse($postRecent->created_at)->format('d/m/Y') }}--}}
+{{--  </span>--}}
+
+
+{{--                                                    <p>{{ $postRecent->intro }}</p>--}}
+{{--                                                </div>--}}
+
+{{--                                            </div>--}}
+
+{{--                                        @endforeach--}}
 
 
                                     </div>
@@ -334,7 +438,7 @@
             </div>
             <style>
                 .home-page {
-                    margin-top: 50px;
+                    margin-top: 80px;
                 }
 
                 .home-page .home-page-row {
@@ -344,7 +448,7 @@
                 @media (max-width: 991px) {
                     .home-page {
                         margin-top: 50px;
-                        padding: 50px 0 !important;
+                        padding: 136px 0 !important;
                     }
 
                     .home-page .home-page-row {
@@ -352,16 +456,7 @@
                     }
                 }
 
-                @media (max-width: 768px) {
-                    .home-page {
-                        margin-top: 0;
-                        padding: 50px 0 !important;
-                    }
 
-                    .home-page .home-page-row {
-                        flex-flow: column;
-                    }
-                }
             </style>
         </section>
         <!-- section end -->

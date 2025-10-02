@@ -27,6 +27,8 @@
         get submit_data() {
             let data = {
                 name: this.name,
+                author: this.author,
+                page: this.page,
                 phone_number: this.phone_number,
             }
             data = jsonToFormData(data);

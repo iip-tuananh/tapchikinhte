@@ -55,6 +55,16 @@
             <div class="col-lg-2">
             </div>
 
+            <style>
+                .gallery-item{ position:relative; border:1px solid #e9ecef; border-radius:8px; padding:8px; background:#fff; }
+                .gallery-item .remove{ position:absolute; top:6px; right:6px; }
+                .gallery-item img{ width:100%; height:180px; object-fit:cover; border-radius:6px; }
+                .caption-field input{ background:#f8fafc; }
+                @media (max-width: 575.98px){
+                    .gallery-item img{ height:150px; }
+                }
+
+            </style>
             <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card-header text-center ">
@@ -64,31 +74,79 @@
                         <div class="form-group text-center">
                             <label for="">Thư viện ảnh</label>
                             <div class="row gallery-area border">
+{{--                                <div class="col-md-4 p-2" ng-repeat="g in form.galleries">--}}
+{{--                                    <div class="gallery-item">--}}
+{{--                                        <button class="btn btn-sm btn-danger remove" ng-click="form.removeGallery($index)">--}}
+{{--                                            <i class="fa fa-times mr-0"></i>--}}
+{{--                                        </button>--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <div class="img-chooser" title="Chọn ảnh">--}}
+{{--                                                <label for="<% g.image.element_id %>">--}}
+{{--                                                    <img ng-src="<% g.image.path %>">--}}
+{{--                                                    <input class="d-none" type="file" accept=".jpg,.png,.jpeg" id="<% g.image.element_id %>">--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
+{{--                                            <span class="invalid-feedback d-block" role="alert" ng-if="!errors['galleries.' + $index + '.image_obj']">--}}
+{{--                                <strong>--}}
+{{--                                    <% errors['galleries.' + $index + '.image' ][0] %>--}}
+{{--                                </strong>--}}
+{{--                            </span>--}}
+{{--                                            <span class="invalid-feedback d-block" role="alert" ng-if="errors && errors['galleries.' + $index + '.image_obj']">--}}
+{{--                                <strong>--}}
+{{--                                    <% errors['galleries.' + $index + '.image_obj' ][0] %>--}}
+{{--                                </strong>--}}
+{{--                            </span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+
+
                                 <div class="col-md-4 p-2" ng-repeat="g in form.galleries">
                                     <div class="gallery-item">
                                         <button class="btn btn-sm btn-danger remove" ng-click="form.removeGallery($index)">
                                             <i class="fa fa-times mr-0"></i>
                                         </button>
-                                        <div class="form-group">
+
+                                        <div class="form-group mb-2">
                                             <div class="img-chooser" title="Chọn ảnh">
                                                 <label for="<% g.image.element_id %>">
                                                     <img ng-src="<% g.image.path %>">
                                                     <input class="d-none" type="file" accept=".jpg,.png,.jpeg" id="<% g.image.element_id %>">
                                                 </label>
                                             </div>
+
+                                            <!-- errors ảnh -->
                                             <span class="invalid-feedback d-block" role="alert" ng-if="!errors['galleries.' + $index + '.image_obj']">
-                                <strong>
-                                    <% errors['galleries.' + $index + '.image' ][0] %>
-                                </strong>
-                            </span>
+        <strong><% errors['galleries.' + $index + '.image' ][0] %></strong>
+      </span>
                                             <span class="invalid-feedback d-block" role="alert" ng-if="errors && errors['galleries.' + $index + '.image_obj']">
-                                <strong>
-                                    <% errors['galleries.' + $index + '.image_obj' ][0] %>
-                                </strong>
-                            </span>
+        <strong><% errors['galleries.' + $index + '.image_obj' ][0] %></strong>
+      </span>
+                                        </div>
+
+
+                                        <div class="form-group mb-0 caption-field">
+                                            <label class="sr-only" for="cap-<% $index %>">Link liên kết</label>
+                                            <input
+                                                id="cap-<% $index %>"
+                                                type="text"
+                                                class="form-control form-control-sm"
+                                                placeholder="Nhập link ảnh"
+                                                ng-model="g.caption"
+                                                ng-attr-name="galleries[<% $index %>][caption]">
+
+
+                                            <!-- errors caption -->
+                                            <span class="invalid-feedback d-block" role="alert" ng-if="errors && errors['galleries.' + $index + '.caption']">
+        <strong><% errors['galleries.' + $index + '.caption' ][0] %></strong>
+      </span>
                                         </div>
                                     </div>
                                 </div>
+
+
+
                                 <div class="col-md-4 p-2">
                                     <label class="gallery-item d-flex align-items-center justify-content-center cursor-pointer" for="gallery-chooser">
                                         <i class="fa fa-plus fa-2x text-secondary"></i>

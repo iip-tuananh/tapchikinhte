@@ -64,47 +64,7 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
-                        <!-- sidebar   -->
-                        <div class="sidebar-content fl-wrap fixed-bar">
-                            <!-- box-widget -->
-                            <!-- box-widget  end -->
-                            <!-- box-widget -->
-                            <div class="box-widget fl-wrap">
-                                <div class="box-widget-content">
-                                    @include('site.partials.post-paycard', ['blog' => $blog])
-                                </div>
-                            </div>
-                            <!-- box-widget  end -->
-                            <!-- box-widget -->
-                            <div class="box-widget fl-wrap">
-                                <div class="widget-title">Danh mục</div>
-                                <div class="box-widget-content">
-                                    <ul class="cat-wid-list">
-                                        @foreach($categories as $cate)
-                                            <li><a href="{{ route('front.blogs', $cate->slug) }}">{{ $cate->name }}</a><span>{{ $cate->total_posts }}</span></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- box-widget  end -->
-                            <!-- box-widget -->
-                            <div class="box-widget fl-wrap">
-                                <div class="widget-title">Tags</div>
-                                <div class="box-widget-content">
-                                    <div class="tags-widget">
-                                        @foreach($tags as $tag)
-                                            <a href="{{ route('front.getPostByTag', $tag->slug) }}">{{ $tag->name }}</a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- sidebar  end -->
-                    </div>
-
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <div class="main-container fl-wrap fix-container-init">
                             <!-- single-post-header  -->
                             <div class="single-post-header fl-wrap">
@@ -153,78 +113,78 @@
                             </div>
 
 
-                    <style>
-                        /* Paywall styles */
-                        .single-post-content_text.is-locked{position:relative}
-                        .paywall-excerpt{
-                            max-height: clamp(220px, 40vh, 420px);
-                            overflow: hidden;
-                            /* tạo fade cuối đoạn preview */
-                            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
-                            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
-                        }
-                        .paywall-overlay{
-                            position:absolute; inset:auto 0 0 0; /* nằm dưới cùng */
-                            display:flex; justify-content:center;
-                            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.96) 30%, rgba(255,255,255,1));
-                            padding: 26px 12px 14px;
-                        }
-                        .paywall-card{
-                            width: min(380px, 100%);
-                            border:1px solid #e8edf2; border-radius:12px; background:#fff;
-                            padding:14px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.06);
-                        }
-                        .paywall-badge{
-                            display:inline-block; padding:5px 10px; border-radius:999px; font-size:.85rem;
-                            border:1px solid #e8edf2; margin-bottom:6px
-                        }
-                        .paywall-badge.is-paid{background:#fff5f0; color:#b23c17; border-color:#ffd9c9}
-                        .paywall-badge.is-free{background:#f1f8f5; color:#0b7a3b; border-color:#d5efe3}
-                        .paywall-price{margin:4px 0 8px; font-size:1.15rem}
-                        .paywall-price .old{margin-left:8px; color:#9aa3ae; text-decoration:line-through}
-                        .paywall-actions{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:8px}
-                        .pw-btn{display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:10px; border:1px solid transparent; text-decoration:none; cursor:pointer}
-                        .pw-btn-primary{background:#ff6a00; color:#fff !important;}
-                        .pw-btn-ghost{background:#fff; color:#111; border-color:#e8edf2}
-                        @media (max-width: 600px){
-                            .paywall-card{padding:12px}
-                        }
+                            <style>
+                                /* Paywall styles */
+                                .single-post-content_text.is-locked{position:relative}
+                                .paywall-excerpt{
+                                    max-height: clamp(220px, 40vh, 420px);
+                                    overflow: hidden;
+                                    /* tạo fade cuối đoạn preview */
+                                    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+                                    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+                                }
+                                .paywall-overlay{
+                                    position:absolute; inset:auto 0 0 0; /* nằm dưới cùng */
+                                    display:flex; justify-content:center;
+                                    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.96) 30%, rgba(255,255,255,1));
+                                    padding: 26px 12px 14px;
+                                }
+                                .paywall-card{
+                                    width: min(380px, 100%);
+                                    border:1px solid #e8edf2; border-radius:12px; background:#fff;
+                                    padding:14px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.06);
+                                }
+                                .paywall-badge{
+                                    display:inline-block; padding:5px 10px; border-radius:999px; font-size:.85rem;
+                                    border:1px solid #e8edf2; margin-bottom:6px
+                                }
+                                .paywall-badge.is-paid{background:#fff5f0; color:#b23c17; border-color:#ffd9c9}
+                                .paywall-badge.is-free{background:#f1f8f5; color:#0b7a3b; border-color:#d5efe3}
+                                .paywall-price{margin:4px 0 8px; font-size:1.15rem}
+                                .paywall-price .old{margin-left:8px; color:#9aa3ae; text-decoration:line-through}
+                                .paywall-actions{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:8px}
+                                .pw-btn{display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:10px; border:1px solid transparent; text-decoration:none; cursor:pointer}
+                                .pw-btn-primary{background:#ff6a00; color:#fff !important;}
+                                .pw-btn-ghost{background:#fff; color:#111; border-color:#e8edf2}
+                                @media (max-width: 600px){
+                                    .paywall-card{padding:12px}
+                                }
 
 
 
-                        /* đặt chiều cao vùng overlay (có thể chỉnh) */
-                        .single-post-content_text.is-locked{ position:relative; --pw-h:120px; }
+                                /* đặt chiều cao vùng overlay (có thể chỉnh) */
+                                .single-post-content_text.is-locked{ position:relative; --pw-h:120px; }
 
-                        /* phần preview: chừa chỗ bằng padding-bottom = chiều cao overlay */
-                        .paywall-excerpt{
-                            max-height: clamp(220px, 40vh, 420px);
-                            overflow:hidden;
-                            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
-                            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
-                            padding-bottom: var(--pw-h);          /* <<< quan trọng */
-                        }
+                                /* phần preview: chừa chỗ bằng padding-bottom = chiều cao overlay */
+                                .paywall-excerpt{
+                                    max-height: clamp(220px, 40vh, 420px);
+                                    overflow:hidden;
+                                    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+                                    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0));
+                                    padding-bottom: var(--pw-h);          /* <<< quan trọng */
+                                }
 
-                        /* overlay chỉ chiếm đúng phần đã chừa ở đáy */
-                        .paywall-overlay{
-                            position:absolute; left:0; right:0; bottom:0;
-                            height: var(--pw-h);                  /* <<< khớp với padding-bottom */
-                            display:flex; align-items:center; justify-content:center;
-                            background: linear-gradient(to bottom,
-                            rgba(255,255,255,0),
-                            rgba(255,255,255,.96) 45%, #fff 90%);
-                            padding: 10px 12px;
-                        }
+                                /* overlay chỉ chiếm đúng phần đã chừa ở đáy */
+                                .paywall-overlay{
+                                    position:absolute; left:0; right:0; bottom:0;
+                                    height: var(--pw-h);                  /* <<< khớp với padding-bottom */
+                                    display:flex; align-items:center; justify-content:center;
+                                    background: linear-gradient(to bottom,
+                                    rgba(255,255,255,0),
+                                    rgba(255,255,255,.96) 45%, #fff 90%);
+                                    padding: 10px 12px;
+                                }
 
-                        /* để click được nút bên trong nhưng không chặn phần preview phía trên */
-                        .paywall-overlay{ pointer-events:none; }
-                        .paywall-card{ pointer-events:auto; }
+                                /* để click được nút bên trong nhưng không chặn phần preview phía trên */
+                                .paywall-overlay{ pointer-events:none; }
+                                .paywall-card{ pointer-events:auto; }
 
-                        @media (max-width:600px){
-                            .single-post-content_text.is-locked{ --pw-h:140px; }  /* nếu mobile cần cao hơn */
-                        }
+                                @media (max-width:600px){
+                                    .single-post-content_text.is-locked{ --pw-h:140px; }  /* nếu mobile cần cao hơn */
+                                }
 
 
-                    </style>
+                            </style>
 
                             <style>
                                 /* ===== Single post header (scoped) ===== */
@@ -373,6 +333,138 @@
 
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <!-- sidebar   -->
+                        <div class="sidebar-content fl-wrap fixed-bar">
+                            <!-- box-widget -->
+                            <!-- box-widget  end -->
+                            <!-- box-widget -->
+                            <div class="box-widget fl-wrap">
+                                <div class="box-widget-content">
+                                    @include('site.partials.post-paycard', ['blog' => $blog])
+                                </div>
+                            </div>
+                            <!-- box-widget  end -->
+                            <!-- box-widget -->
+                            <div class="box-widget fl-wrap">
+                                <div class="widget-title">Danh mục</div>
+                                <div class="box-widget-content">
+                                    <ul class="cat-wid-list">
+                                        @foreach($categories as $cate)
+                                            <li><a href="{{ route('front.blogs', $cate->slug) }}">{{ $cate->name }}</a><span>{{ $cate->total_posts }}</span></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- box-widget  end -->
+                            <!-- box-widget -->
+                            <div class="box-widget fl-wrap">
+                                <div class="widget-title">Tags</div>
+                                <div class="box-widget-content">
+                                    <div class="tags-widget">
+                                        @foreach($tags as $tag)
+                                            <a href="{{ route('front.getPostByTag', $tag->slug) }}">{{ $tag->name }}</a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-widget fl-wrap">
+                                <div class="widget-title">Theo dõi chúng tôi</div>
+                                <div class="box-widget-content">
+                                    <div class="social-widget">
+                                        <a href="{{ $config->facebook }}" target="_blank" class="facebook-soc">
+                                            <i class="fab fa-facebook-f"></i>
+                                            <span class="soc-widget-title">Facebook</span>
+                                        </a>
+                                        <a href="{{ $config->twitter }}" target="_blank" class="twitter-soc">
+                                            <i class="fab fa-twitter"></i>
+                                            <span class="soc-widget-title">Twitter</span>
+                                        </a>
+                                        <a href="{{ $config->youtube }}" target="_blank" class="youtube-soc">
+                                            <i class="fab fa-youtube"></i>
+                                            <span class="soc-widget-title">Youtube</span>
+                                        </a>
+                                        <a href="{{ $config->instagram }}" target="_blank" class="instagram-soc">
+                                            <i class="fab fa-instagram"></i>
+                                            <span class="soc-widget-title">Instagram</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- box-widget  end -->
+                            <!-- box-widget -->
+                            <div class="box-widget fl-wrap">
+                                <div class="box-widget-content">
+                                    <!-- content-tabs-wrap -->
+                                    <div class="content-tabs-wrap tabs-act tabs-widget fl-wrap">
+                                        <div class="content-tabs fl-wrap">
+                                            <ul class="tabs-menu fl-wrap no-list-style">
+                                                <li class="current"><a href="#tab-popular"> Bài viết phổ biến </a></li>
+                                                <li><a href="#tab-resent">Bài viết mới nhất</a></li>
+                                            </ul>
+                                        </div>
+                                        <!--tabs -->
+                                        <div class="tabs-container">
+                                            <!--tab -->
+                                            <div class="tab">
+                                                <div id="tab-popular" class="tab-content first-tab">
+                                                    <div class="post-widget-container fl-wrap">
+                                                        <!-- post-widget-item -->
+                                                        @foreach($popularPosts as $popularPost)
+                                                            <div class="post-widget-item fl-wrap">
+                                                                <div class="post-widget-item-media">
+                                                                    <a href="{{ route('front.blogDetail', $popularPost->slug) }}"><img src="{{ $popularPost->image->path ?? '' }}"  alt=""></a>
+                                                                </div>
+                                                                <div class="post-widget-item-content">
+                                                                    <h4><a href="{{ route('front.blogDetail', $popularPost->slug) }}">{{ $popularPost->name }}</a></h4>
+                                                                    <ul class="pwic_opt">
+                                                                        <li><span><i class="far fa-clock"></i>{{ \Illuminate\Support\Carbon::parse($popularPost->created_at)->format('d/m/Y') }}</span></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--tab  end-->
+                                            <!--tab -->
+                                            <div class="tab">
+                                                <div id="tab-resent" class="tab-content">
+                                                    <div class="post-widget-container fl-wrap">
+                                                        <!-- post-widget-item -->
+                                                        @foreach($postsRecent as $postRecent)
+                                                            <div class="post-widget-item fl-wrap">
+                                                                <div class="post-widget-item-media">
+                                                                    <a href="{{ route('front.blogDetail', $postRecent->slug) }}"><img src="{{ $postRecent->image->path ?? '' }}"  alt=""></a>
+
+
+
+                                                                </div>
+                                                                <div class="post-widget-item-content">
+                                                                    <h4><a href="{{ route('front.blogDetail', $postRecent->slug) }}">{{ $postRecent->name }}</a></h4>
+                                                                    <ul class="pwic_opt">
+                                                                        <li><span><i class="far fa-clock"></i>{{ \Illuminate\Support\Carbon::parse($postRecent->created_at)->format('d/m/Y') }}</span></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--tab end-->
+                                        </div>
+                                        <!--tabs end-->
+                                    </div>
+                                    <!-- content-tabs-wrap end -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- sidebar  end -->
+                    </div>
+
 
 
                 </div>

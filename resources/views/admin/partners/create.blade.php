@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="semi-bold">Thêm đối tác</h4>
+                <h4 class="semi-bold">Thêm mới</h4>
             </div>
             <div class="modal-body">
                 @include('admin.partners.form')

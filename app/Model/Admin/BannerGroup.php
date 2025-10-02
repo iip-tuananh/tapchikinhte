@@ -70,7 +70,7 @@ class BannerGroup extends BaseModel
     public static function getDataForShow($id) {
         return self::where('id', $id)
             ->with(['image', 'galleries' => function ($q) {
-                $q->select(['id', 'group_id', 'sort'])
+                $q->select(['id', 'group_id', 'sort', 'caption'])
                     ->with(['image'])
                     ->orderBy('sort', 'ASC');
             }])
@@ -99,6 +99,7 @@ class BannerGroup extends BaseModel
                 else $gallery = new BannerGroupGallery();
 
                 $gallery->group_id = $this->id;
+                $gallery->caption = @$g['caption'] ?? null;
                 $gallery->sort = $i;
                 $gallery->save();
 

@@ -134,8 +134,9 @@ class FrontController extends Controller
         $highlightCate = CategorySpecial::query()->where('id', 11)->first();
         $highlightPosts = $highlightCate->posts()->with(['image', 'category'])
             ->where('status', 1)->latest()->limit(5)->get();
+        $news = Partner::query()->latest()->get();
 
-        return view('site.home', compact('popularPosts','postsRecent', 'banners1', 'banners2', 'banners3', 'categories', 'popularCate', 'highlightPosts', 'highlightCate'));
+        return view('site.home', compact('popularPosts','postsRecent', 'banners1', 'banners2', 'banners3', 'categories', 'popularCate', 'highlightPosts', 'highlightCate', 'news'));
     }
 
     public function sendPost(Request $request)
@@ -450,8 +451,15 @@ class FrontController extends Controller
             ->where('t.tagable_type', Post::class)
             ->where('p.status', 1)
             ->get();
+        // danh mục bài viết phổ biến
+        $popularCate = CategorySpecial::query()->where('id', 15)->first();
+        $popularPosts = $popularCate->posts()->with('image')
+            ->where('status', 1)->latest()->limit(4)->get();
 
-        return view('site.blog_detail', compact('blog', 'othersBlog', 'categories', 'tags'));
+        // bài viết mới nhất
+        $postsRecent = Post::query()->with(['category', 'image'])->where('status', 1)->latest()->limit(6)->get();
+
+        return view('site.blog_detail', compact('blog', 'othersBlog', 'categories', 'tags','postsRecent', 'popularPosts'));
     }
 
 

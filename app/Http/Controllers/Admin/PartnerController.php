@@ -69,9 +69,7 @@ class PartnerController extends Controller
             $request->all(),
             [
                 'name' => 'required|max:255',
-                'phone_number' => 'required',
-                'image' => 'nullable|file|mimes:jpg,jpeg,png,svg,webp|max:3000',
-
+                'author' => 'required',
             ]
         );
         $json = new stdClass();
@@ -88,7 +86,8 @@ class PartnerController extends Controller
             $object = new ThisModel();
 
             $object->name = $request->name;
-            $object->phone_number = $request->phone_number;
+            $object->author = $request->author;
+            $object->page = $request->page;
             $object->created_by = auth()->id();
             $object->save();
 
@@ -122,8 +121,7 @@ class PartnerController extends Controller
             $request->all(),
             [
                 'name' => 'required|max:255',
-                'phone_number' => 'required',
-                'image' => 'nullable|file|mimes:jpg,jpeg,png,svg,webp|max:3000',
+                'author' => 'required',
             ]
         );
         $json = new stdClass();
@@ -139,16 +137,12 @@ class PartnerController extends Controller
         try {
             $object = ThisModel::findOrFail($id);
             $object->name = $request->name;
-            $object->phone_number = $request->phone_number;
+            $object->author = $request->author;
+            $object->page = $request->page;
+            $object->updated_by = auth()->id();
 
             $object->save();
 
-            if($request->image) {
-                if($object->image) {
-                    FileHelper::deleteFileFromCloudflare($object->image, $object->id, \App\Model\Admin\Partner::class, 'image');
-                }
-                FileHelper::uploadFileToCloudflare($request->image, $object->id, \App\Model\Admin\Partner::class, 'image');
-            }
 
             DB::commit();
             $json->success = true;
