@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <!--=============== css  ===============-->
     <link type="text/css" rel="stylesheet" href="/site/css/plugins.css">
-    <link type="text/css" rel="stylesheet" href="/site/css/style.css">
+    <link type="text/css" rel="stylesheet" href="/site/css/style.css?v=1.2">
     <link type="text/css" rel="stylesheet" href="/site/css/color.css">
     <!--=============== favicons ===============-->
     <link rel="shortcut icon" type="image/x-icon" href="{{@$config->favicon->path ?? ''}}" />

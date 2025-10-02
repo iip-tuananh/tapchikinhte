@@ -51,7 +51,7 @@
                 <div class="col-md-4">
                     <div class="footer-widget text-center">
                         <div class="footer-widget-title">
-                            <a href="" ><img src="../images/logo1.png" alt="" style="width: 100%;"></a>
+                            <a href="" ><img src="{{ $config->image->path ?? '' }}" alt="" style="width: 65%;"></a>
                         </div>
                         <div class="footer-widget-content">
                             <!-- <div class="footer-widget-sub-iso">

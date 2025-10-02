@@ -31,6 +31,16 @@
                             .left-sidebar .box-widget {
                                 padding-left: 0;
                             }
+
+
+                            .text-limit-3-line {
+                                text-align: justify;
+                                line-height: 1.5;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 3;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;
+                            }
                         </style>
                         <!-- sidebar  end -->
                     </div>
@@ -69,15 +79,6 @@
                                                     <h3 class="post-title">
                                                         <a href="/{{ $postRecent->slug }}">{{ $postRecent->name }}</a>
 
-                                                        <!-- Badge chỉ xuất hiện khi is_hot = 1 -->
-                                                        @if($postRecent->is_hot == 1)
-                                                            <span class="hot-badge"
-                                                                  ng-if="post.is_hot == 1"
-                                                                  title="Bài viết nổi bật">
-                                                          <span class="hot-badge__icon" aria-hidden="true">🔥</span>
-                                                          <span class="hot-badge__text">Tin hot</span>
-                                                         </span>
-                                                        @endif
 
                                                     </h3>
 
@@ -152,13 +153,13 @@
                                                                     </div>
                                                                     <div class="post-widget-item-content">
                                                                         <h4><a href="/{{ $post->slug }}">{{ $post->name }}</a></h4>
-                                                                        <ul class="pwic_opt">
+                                                                        <ul class="pwic_opt" style="display: inline-block">
                                                                             <li><span><i class="far fa-clock"></i>{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</span></li>
 
                                                                         </ul>
-                                                                        <p style="padding-bottom: 0;">
+                                                                        <div style="padding-bottom: 0;" class="text-limit-3-line">
                                                                             {{ $post->intro }}
-                                                                        </p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 
