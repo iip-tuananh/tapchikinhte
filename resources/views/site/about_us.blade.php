@@ -10,12 +10,12 @@
 
 @section('content')
 
-    <div class="content">
+    <div class="content content-page">
         <!--section   -->
         <div class="breadcrumbs-header fl-wrap">
             <div class="container">
                 <div class="breadcrumbs-header_url">
-                    <a href="{{ route('front.home-page') }}">Trang chủ</a><span>Về chúng tôi</span>
+                    <a href="{{ route('front.home-page') }}">Trang chủ</a><span>{{ $title }}</span>
                 </div>
                 <div class="scroll-down-wrap">
                     <div class="mousey">

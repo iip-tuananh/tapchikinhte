@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="content">
+    <div class="content" ng-controller="homePage">
         <section class="home-page">
             <div class="container">
                 <div class="row home-page-row">
@@ -142,24 +142,80 @@
                             <div class="section-title">
                                 <h2 style="text-transform: uppercase;">Nội dung số mới nhất</h2>
                                 <!-- <h4>Don't miss daily news</h4> -->
+                            <style>
+                                /* ===== Pagination – prefix apc- để tránh xung đột ===== */
+                                .apc-pager{
+                                    display:flex; align-items:center; justify-content:center;
+                                    gap:12px; margin:16px 0 4px;
+                                }
+                                .apc-btn{
+                                    display:inline-flex; align-items:center; gap:8px;
+                                    padding:8px 12px; border:1px solid rgba(255,255,255,.45);
 
+                                    border-radius:999px; cursor:pointer; user-select:none;
+                                    transition:all .18s ease-in-out;
+                                    line-height:1; font-size:14px; backdrop-filter:saturate(140%) blur(2px);
+                                }
+                                .apc-btn:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.7) }
+                                .apc-btn:disabled, .apc-btn[disabled]{
+                                    opacity:.5; cursor:not-allowed; background:rgba(255,255,255,.04);
+                                }
+                                .apc-page-indicator{ min-width:72px; display:flex; justify-content:center }
+                                .apc-pill{
+                                    display:inline-block; padding:6px 12px; border-radius:999px;
+                                    background:rgba(0,0,0,.25); color:#fff; font-weight:600; font-size:14px;
+                                    border:1px solid rgba(255,255,255,.25);
+                                }
+
+                                /* Nền header của bạn là xanh đậm, giữ độ tương phản tốt trên mobile */
+                                @media (max-width: 575.98px){
+                                    .apc-btn span{ display:none }      /* chỉ còn icon để gọn */
+                                    .apc-btn{ padding:8px }            /* nút tròn nhỏ */
+                                    .apc-pill{ padding:6px 10px; font-size:13px }
+                                }
+
+                            </style>
                             </div>
                             <div class="ajax-wrapper fl-wrap">
                                 <div class="ajax-loader"><img src="https://gmag.kwst.net/images/loading.gif" alt=""/></div>
                                 <div id="ajax-content" class="fl-wrap">
                                     <div class="list-post-wrap">
                                         <ol class="toc-list">
-                                            @foreach($news as $record)
-                                                <li class="toc-item">
-                                                    <div class="toc-row">
-                                                        <a class="toc-title" href="#">{{ $record->name }}</a>
-                                                        <span class="toc-page">{{ $record->page }}</span>
-                                                    </div>
-                                                    <div class="toc-author">{{ $record->author }}</div>
-                                                </li>
-                                            @endforeach
 
+                                                <li class="toc-item" ng-repeat="record in news" ng-cloak>
+                                                    <div class="toc-row">
+                                                        <a class="toc-title" href="#">
+                                                            <% record.name %>
+                                                        </a>
+                                                        <span class="toc-page">
+                                                            <% record.page %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="toc-author"><% record.author %></div>
+                                                </li>
                                         </ol>
+
+                                        <div class="apc-pager" ng-cloak>
+                                            <button class="apc-btn"
+                                                    ng-click="prevPage()"
+                                                    ng-disabled="currentPage <= 1"
+                                                    aria-label="Trang trước">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                                <span>Trang trước</span>
+                                            </button>
+
+                                            <div class="apc-page-indicator" aria-live="polite">
+                                                <span class="apc-pill"><% currentPage || 1 %>/<% lastPage || 1 %></span>
+                                            </div>
+
+                                            <button class="apc-btn"
+                                                    ng-click="nextPage()"
+                                                    ng-disabled="currentPage >= lastPage"
+                                                    aria-label="Trang sau">
+                                                <span>Trang sau</span>
+                                                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </button>
+                                        </div>
 {{--                                        @foreach($postsRecent as $postRecent)--}}
 {{--                                            <div class="list-post fl-wrap">--}}
 {{--                                                <div class="list-post-media">--}}
@@ -438,7 +494,7 @@
             </div>
             <style>
                 .home-page {
-                    margin-top: 80px;
+                    margin-top: 97px;
                 }
 
                 .home-page .home-page-row {
@@ -447,7 +503,7 @@
 
                 @media (max-width: 991px) {
                     .home-page {
-                        margin-top: 50px;
+                        margin-top: 152px;
                         padding: 136px 0 !important;
                     }
 
@@ -589,11 +645,64 @@
 
 
     <script>
-        app.controller('homePage', function ($rootScope, $scope, cartItemSync, $interval) {
+        app.controller('homePage', function ($rootScope, $scope, $interval) {
 
             $scope.formartDate = function (date) {
                 return new Date(date.replace(' ', 'T'));
             }
+
+            $scope.currentPage = 1;
+            $scope.lastPage = 1;
+
+            $scope.getNews = function (page) {
+                var $loader = $('.ajax-loader');
+
+                if ($scope.lastPage) {
+                    page = Math.max(1, Math.min(page || 1, $scope.lastPage));
+                } else {
+                    page = Math.max(1, page || 1);
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: "/get-news?page=" + page,
+                    headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+                    beforeSend: function () { $loader.stop(true,true).fadeIn(100); },
+                    success: function (response) {
+                        if (response && response.success && response.data) {
+                            var p = response.data;
+                            $scope.news        = p.data || [];
+                            $scope.currentPage = p.current_page || page || 1;
+                            $scope.lastPage    = p.last_page || 1;
+                            $scope.total       = p.total || 0;
+                            $scope.perPage     = p.per_page || $scope.news.length;
+                            $scope.$applyAsync();
+                        }
+                    },
+                    error: function () { toastr.error('Đã có lỗi xảy ra'); },
+                    complete: function () { $loader.stop(true,true).fadeOut(100); }
+                });
+            };
+
+            $scope.nextPage = function(){
+                if ($scope.currentPage < $scope.lastPage) {
+                    $scope.getNews($scope.currentPage + 1);
+                }
+            };
+            $scope.prevPage = function(){
+                if ($scope.currentPage > 1) {
+                    $scope.getNews($scope.currentPage - 1);
+                }
+            };
+
+            $(document).on('keydown.apcPager', function(e){
+                var tag = (e.target.tagName || '').toLowerCase();
+                if (tag === 'input' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+                if (e.key === 'ArrowRight') { $scope.nextPage(); }
+                if (e.key === 'ArrowLeft')  { $scope.prevPage(); }
+            });
+
+            $scope.getNews(1);
 
         })
     </script>

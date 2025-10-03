@@ -80,7 +80,7 @@
             .post-widget-item .pw-badge span{ display:none; } /* nếu bạn để text trong <span> */
         }
     </style>
-    <div class="content" style="margin-top: 60px">
+    <div class="content content-page" >
         <div class="breadcrumbs-header fl-wrap">
             <div class="container">
                 <div class="breadcrumbs-header_url">

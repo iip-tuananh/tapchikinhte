@@ -77,28 +77,152 @@
         }
 
     </style>
+    <style>
+        /* Tùy biến nhanh bằng biến CSS */
+        :root{
+            --logo-h: 44px;          /* chiều cao logo */
+            --logo-pad-y: 12px;       /* padding dọc */
+            --logo-pad-x: 12px;      /* padding ngang */
+            --logo-radius: 12px;     /* độ bo tròn */
+            --logo-bg: #d32027;      /* đỏ chủ đạo */
+        }
+
+        .apc-left{
+            display:flex;
+            align-items:center;
+        }
+
+        .apc-logo--badge{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            background:var(--logo-bg);
+            padding:var(--logo-pad-y) var(--logo-pad-x);
+            border-radius:var(--logo-radius);
+            line-height:1;
+            overflow:hidden;                /* bảo đảm bo tròn “ăn” vào nền */
+            box-shadow:0 2px 6px rgba(0,0,0,.08);
+            text-decoration:none;
+        }
+
+        .apc-logo--badge img{
+            display:block;
+            height:var(--logo-h);
+            width:auto;
+        }
+
+        /* Hover/Focus cho đẹp & accessibility */
+        .apc-logo--badge:hover{ filter:brightness(1.03); }
+        .apc-logo--badge:focus-visible{
+            outline:2px solid #1e4fa3;     /* viền xanh nhẹ giống mẫu */
+            outline-offset:2px;
+        }
+
+        /* Mobile tinh gọn */
+        @media (max-width: 575.98px){
+            :root{ --logo-h: 34px; --logo-pad-y: 4px; --logo-pad-x: 10px; --logo-radius: 10px; }
+        }
+
+    </style>
     <!-- top bar -->
     <div class="top-bar fl-wrap">
         <div class="top-bar-container">
-            <div class="logo-header">
-                <a href="{{ route('front.home-page') }}" class="logo-holder logo-badge" style="margin-bottom: 5px"><img src="{{ $config->image->path ?? '' }}" alt=""></a>
-                <div class="left-header-sub-iso">
-                    ISSN: 0868 - 3808
-                </div>
-            </div>
-            <div class="left-header text-center">
-                <div class="left-header-title">
-                    TRUNG TÂM KINH TẾ CHÂU Á - <br>THÁI BÌNH DƯƠNG <br>
-
-                </div>
-                <div class="left-header-title">
-                    Vietnam Asia-Pacific Economic Center
+            <div class="top-bar-container apc-header">
+                <!-- LEFT: logo + ISSN -->
+                <div class="apc-left">
+                    <a href="{{ route('front.home-page') }}" class="apc-logo apc-logo--badge">
+                        <img src="{{ $config->image->path ?? '' }}" alt="Logo">
+                    </a>
+                    <div class="apc-issn">ISSN: 0868 - 3808</div>
                 </div>
 
-                <!-- <div class="left-header-sub-iso">
-                   ISSN: 0868 - 3808
-                </div> -->
+                <!-- CENTER: banner quảng cáo (1 ảnh duy nhất) -->
+                @php
+                    $bannerAd = @$bannerAd->galleries[0] ?? null;
+                @endphp
+                <div class="apc-center" aria-label="banner-quang-cao">
+                    <a class="apc-ad" href="{{ @$bannerAd->caption ?? '#' }}" target="_blank" rel="noopener">
+                        <img class="apc-ad-img"
+                             src="{{ @$bannerAd->image->path ?? 'https://placehold.co/1456x180/343a40/FFFFFF?text=Header+Ad+%402x' }}"
+                             alt="Quảng cáo header" loading="lazy">
+                    </a>
+                </div>
+
+                <!-- RIGHT: logo + text -->
+                <div class="apc-right">
+                    <img class="apc-right-logo" src="http://127.0.0.1:8000/site/images/z7047483015434_2a706974b167ccb4878d6a5e2bc51169.png" alt="VAPEC">
+                    <div class="apc-right-text">
+                        <div class="apc-title-vi">TRUNG TÂM KINH TẾ <br> CHÂU Á - THÁI BÌNH DƯƠNG</div>
+                        <div class="apc-title-en">Vietnam Asia-Pacific Economic Center</div>
+                    </div>
+                </div>
             </div>
+
+            <style>
+                /* ====== Header 3 cột – tất cả prefix apc- để tránh đụng CSS khác ====== */
+                .apc-header{
+                    width:calc(100% - 100px);
+                    margin:0 50px;
+                    max-width:100%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    gap:16px;
+                }
+
+                /* LEFT */
+                .apc-left{display:flex; flex-direction:column; align-items:center; min-width:180px}
+                .apc-logo img{max-height:95px; width:auto; height:auto; display:block}
+                .apc-issn{margin-top:8px; font-size:14px; letter-spacing:.3px; color:#fff}
+
+                /* CENTER – 1 ảnh banner, tự co giãn */
+                .apc-center{flex:1; display:flex; align-items:center; justify-content:center; min-height:60px}
+                .apc-ad{display:block; width:100%; max-width:clamp(320px, 58vw, 728px)}
+                .apc-ad-img{
+                    display:block; width:100%; height:auto;
+                    /*aspect-ratio:728/90;          !* ổn định layout trước khi ảnh tải *!*/
+                    object-fit:contain;
+                    border-radius:8px;
+                    box-shadow:0 2px 8px rgba(0,0,0,.08);
+                }
+
+                /* RIGHT */
+                .apc-right{display:flex; align-items:center; gap:14px; min-width:280px}
+                .apc-right-logo{height:165px; width:auto; display:block}
+                .apc-right-text{line-height:1.2; text-align:left}
+                .apc-title-vi{
+                    font-family:"STIX Two Text", serif;
+                    font-weight:500;
+                    font-size:20px;
+                    color:#fff;
+                }
+                .apc-title-en{
+                    font-family:"STIX Two Text", serif;
+                    font-weight:400;
+                    font-size:16px;
+                    color:#fff;
+                    opacity:.95;
+                }
+
+                /* ====== Responsive ====== */
+                /* Tablet */
+                @media (max-width: 1199.98px){
+                    .apc-right-logo{height:64px}
+                    .apc-title-vi{font-size:18px}
+                    .apc-title-en{font-size:14px}
+                    .apc-ad{max-width:468px}       /* ~468x60 */
+                }
+                /* Mobile */
+                @media (max-width: 768px){
+                    .apc-header{width:calc(100% - 30px); margin:0 15px; flex-wrap:wrap; gap:10px}
+                    .apc-left{min-width:auto}
+                    .apc-right-logo{height:100px}
+                    .apc-title-vi{font-size:16px}
+                    .apc-title-en{font-size:12px}
+                    .apc-center{order:3; flex:0 0 100%} /* banner xuống hàng dưới */
+                    .apc-ad{max-width:320px}            /* ~320x50 */
+                }
+            </style>
         </div>
         <style>
             .top-bar-container {
@@ -385,6 +509,60 @@
                 </div>
             </div>
 
+            <style>
+                /* Màu khi hover */
+                .nav-holder.main-menu a:hover { color: #fff1f2; }
+
+                /* Gạch chân chạy cho menu cấp 1 */
+                .nav-holder.main-menu > nav > ul > li > a{
+                    position: relative;
+                    text-decoration: none;
+                    transition: color .2s ease;
+                }
+                .nav-holder.main-menu > nav > ul > li > a::after{
+                    content:"";
+                    position:absolute;
+                    left:0; right:0; bottom:-2px;
+                    height:2px;                /* chỉ là hiệu ứng, không đổi layout */
+                    background: currentColor;  /* cùng màu chữ khi hover */
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: transform .25s ease;
+                }
+                .nav-holder.main-menu > nav > ul > li:hover > a::after,
+                .nav-holder.main-menu > nav > ul > li > a:focus-visible::after{
+                    transform: scaleX(1);
+                }
+
+                /* Gạch chân cho item trong submenu */
+                .nav-holder.main-menu li > ul a{
+                    position: relative;
+                    text-decoration: none;
+                    transition: color .2s ease;
+                }
+                .nav-holder.main-menu li > ul a:hover{
+                    color:#d32027;
+                }
+                .nav-holder.main-menu li > ul a::after{
+                    content:"";
+                    position:absolute;
+                    left:0; right:0; bottom:-2px;
+                    height:2px;
+                    background: currentColor;
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: transform .25s ease;
+                }
+                .nav-holder.main-menu li > ul a:hover::after,
+                .nav-holder.main-menu li > ul a:focus-visible::after{
+                    transform: scaleX(1);
+                }
+
+                /* (Tùy chọn) xoay caret khi hover mục có submenu */
+                .nav-holder.main-menu .fa-caret-down{ transition: transform .2s ease; }
+                .nav-holder.main-menu li:hover > a .fa-caret-down{ transform: rotate(180deg); }
+
+            </style>
             <!-- nav-button-wrap end-->
             <!--  navigation -->
             <div class="nav-holder main-menu">

@@ -136,8 +136,25 @@ class FrontController extends Controller
             ->where('status', 1)->latest()->limit(5)->get();
         $news = Partner::query()->orderBy('sort_order')->get();
 
-        return view('site.home', compact('popularPosts','postsRecent', 'banners1', 'banners2', 'banners3', 'categories', 'popularCate', 'highlightPosts', 'highlightCate', 'news'));
+        return view('site.home', compact('popularPosts','postsRecent', 'banners1', 'banners2', 'banners3'
+            , 'categories', 'popularCate', 'highlightPosts', 'highlightCate', 'news'));
     }
+
+    public function pdf(Request $request) {
+
+        return view('site.view_pdf');
+    }
+
+    public function getNews(Request $request) {
+        $news = Partner::query()->orderBy('sort_order')->paginate(10);
+
+        $json = new \stdClass();
+        $json->success = true;
+        $json->data = $news;
+
+        return Response::json($json);
+    }
+
 
     public function sendPost(Request $request)
     {
@@ -213,36 +230,6 @@ class FrontController extends Controller
         }
     }
 
-    public function getPostByCate(Request $request) {
-        $category = PostCategory::query()->where('id', $request->cate_id)->first();
-        $cateIds = [$category->id];
-
-        if(! $category->parent_id) {
-            $lv2Ids = PostCategory::query()
-                ->where('parent_id', $category->id)
-                ->pluck('id');
-
-            $lv3Ids = PostCategory::query()
-                ->whereIn('parent_id', $lv2Ids)
-                ->pluck('id');
-
-            $cateIds = $lv2Ids->merge($lv3Ids)->unique()->values()->all();
-
-            if(! $cateIds) {  $cateIds = [$category->id]; }
-        }
-
-        $posts = Post::query()->with('category', 'image')->whereIn('cate_id', $cateIds)->where('status', 1)->latest()
-            ->take(5)->get();
-
-        PostService::attachAccess($posts, auth('customer')->id());
-
-        $json = new \stdClass();
-        $json->success = true;
-        $json->data = $posts;
-
-        return Response::json($json);
-
-    }
 
     public function getPostByTag(Request $request, $slug) {
         $sortMap = [
@@ -1809,47 +1796,52 @@ class FrontController extends Controller
 
     public function clearData()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        DB::table('permissions')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('role_has_permissions')->truncate();
-        DB::table('model_has_roles')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-
-        Cache::flush('spatie.permission.cache');
-        Cache::flush('spatie.role.cache');
-
-        Permission::createRecord(['id' => 1, 'name' => 'Quản lý danh mục bài viết', 'display_name' => 'Quản lý danh mục bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
-
-        Permission::createRecord(['id' => 2, 'name' => 'Thêm bài viết', 'display_name' => 'Thêm bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
-        Permission::createRecord(['id' => 3, 'name' => 'Sửa bài viết', 'display_name' => 'Sửa bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
-        Permission::createRecord(['id' => 4, 'name' => 'Xóa bài viết', 'display_name' => 'Xóa bài viết','guard_name' => 'admin', 'group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
-
-
-        Permission::createRecord(['id' => 5, 'name' => 'Quản lý bài viết cộng tác viên', 'display_name' => 'Quản lý bài viết cộng tác viên','guard_name' => 'admin', 'group' => 'Quản lý bài viết cộng tác viên'], [User::QUAN_TRI_VIEN]);
-        Permission::createRecord(['id' => 6, 'name' => 'Quản lý tài khoản cộng tác viên', 'display_name' => 'Quản lý tài khoản cộng tác viên','guard_name' => 'admin', 'group' => 'Quản lý tài khoản cộng tác viên'], [User::QUAN_TRI_VIEN]);
-
-
-
-        Permission::createRecord(['id' => 7, 'name' => 'Cấu hình thông tin hệ thống', 'display_name' => 'Cấu hình thông tin hệ thống', 'guard_name' => 'admin','group' => 'Cấu hình hệ thống'], [User::QUAN_TRI_VIEN]);
-        Permission::createRecord(['id' => 8, 'name' => 'Quản lý người dùng hệ thống', 'display_name' => 'Quản lý người dùng hệ thống','guard_name' => 'admin', 'group' => 'Cấu hình hệ thống'], [User::QUAN_TRI_VIEN]);
-
-
-
-
-        $sysRole = Role::firstOrCreate(
-            ['name' => 'Quản trị hệ thống', 'guard_name' => 'admin'],
-            ['display_name' => 'Quản trị hệ thống']
-        );
-        $allAdminPerms = Permission::query()
-            ->where('guard_name', 'admin')
-            ->pluck('id')
-            ->all();
-
-        $sysRole->syncPermissions($allAdminPerms);
-
-        $user = User::query()->where('id', 1)->first();
-        $user->assignRole($sysRole);
+        $banner = new BannerGroup();
+        $banner->title = "Ảnh quảng cáo header";
+        $banner->created_by = 1;
+        $banner->updated_by = 1;
+        $banner->save();
+//        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+//        DB::table('permissions')->truncate();
+//        DB::table('roles')->truncate();
+//        DB::table('role_has_permissions')->truncate();
+//        DB::table('model_has_roles')->truncate();
+//        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+//
+//        Cache::flush('spatie.permission.cache');
+//        Cache::flush('spatie.role.cache');
+//
+//        Permission::createRecord(['id' => 1, 'name' => 'Quản lý danh mục bài viết', 'display_name' => 'Quản lý danh mục bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
+//
+//        Permission::createRecord(['id' => 2, 'name' => 'Thêm bài viết', 'display_name' => 'Thêm bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
+//        Permission::createRecord(['id' => 3, 'name' => 'Sửa bài viết', 'display_name' => 'Sửa bài viết', 'guard_name' => 'admin','group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
+//        Permission::createRecord(['id' => 4, 'name' => 'Xóa bài viết', 'display_name' => 'Xóa bài viết','guard_name' => 'admin', 'group' => 'Quản lý bài viết'], [User::QUAN_TRI_VIEN]);
+//
+//
+//        Permission::createRecord(['id' => 5, 'name' => 'Quản lý bài viết cộng tác viên', 'display_name' => 'Quản lý bài viết cộng tác viên','guard_name' => 'admin', 'group' => 'Quản lý bài viết cộng tác viên'], [User::QUAN_TRI_VIEN]);
+//        Permission::createRecord(['id' => 6, 'name' => 'Quản lý tài khoản cộng tác viên', 'display_name' => 'Quản lý tài khoản cộng tác viên','guard_name' => 'admin', 'group' => 'Quản lý tài khoản cộng tác viên'], [User::QUAN_TRI_VIEN]);
+//
+//
+//
+//        Permission::createRecord(['id' => 7, 'name' => 'Cấu hình thông tin hệ thống', 'display_name' => 'Cấu hình thông tin hệ thống', 'guard_name' => 'admin','group' => 'Cấu hình hệ thống'], [User::QUAN_TRI_VIEN]);
+//        Permission::createRecord(['id' => 8, 'name' => 'Quản lý người dùng hệ thống', 'display_name' => 'Quản lý người dùng hệ thống','guard_name' => 'admin', 'group' => 'Cấu hình hệ thống'], [User::QUAN_TRI_VIEN]);
+//
+//
+//
+//
+//        $sysRole = Role::firstOrCreate(
+//            ['name' => 'Quản trị hệ thống', 'guard_name' => 'admin'],
+//            ['display_name' => 'Quản trị hệ thống']
+//        );
+//        $allAdminPerms = Permission::query()
+//            ->where('guard_name', 'admin')
+//            ->pluck('id')
+//            ->all();
+//
+//        $sysRole->syncPermissions($allAdminPerms);
+//
+//        $user = User::query()->where('id', 1)->first();
+//        $user->assignRole($sysRole);
 
     }
 

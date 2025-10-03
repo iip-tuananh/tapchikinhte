@@ -43,7 +43,7 @@
         }
 
     </style>
-    <div class="content" ng-controller="blogPage">
+    <div class="content content-page" ng-controller="blogPage">
         <div class="breadcrumbs-header fl-wrap">
             <div class="container">
                 <div class="breadcrumbs-header_url">

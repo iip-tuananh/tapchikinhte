@@ -18,7 +18,8 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get('/','FrontController@homePage')->name('front.home-page');
     Route::get('/posts/{slug?}','FrontController@blogs')->name('front.blogs');
     Route::get('/posts/tag/{slug}','FrontController@getPostByTag')->name('front.getPostByTag');
-    Route::get('/get-post-by-cate','FrontController@getPostByCate')->name('front.getPostByCate');
+    Route::get('/get-news','FrontController@getNews')->name('front.getNews');
+    Route::get('/pdf','FrontController@pdf')->name('front.pdf');
 
 
 

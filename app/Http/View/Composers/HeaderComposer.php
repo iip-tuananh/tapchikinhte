@@ -2,6 +2,7 @@
 
 namespace App\Http\View\Composers;
 
+use App\Model\Admin\BannerGroup;
 use App\Model\Admin\Category;
 use App\Model\Admin\Config;
 use App\Model\Admin\Post;
@@ -32,10 +33,11 @@ class HeaderComposer
             })
             ->orderBy('sort_order')
             ->get();
+        $bannerAd = BannerGroup::query()->with(['galleries.image'])->find(14);
 
         $view->with(['config' => $config,
            'postsCategory' => $postsCategory,
-
+           'bannerAd' => $bannerAd,
         ]);
     }
 }
