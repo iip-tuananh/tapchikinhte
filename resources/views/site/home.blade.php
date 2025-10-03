@@ -24,7 +24,7 @@
                                         <a href="{{ $url }}"
                                            target="_blank" rel="noopener" class="banner-link">
                                             <img src="{{ $gallery->image->path ?? '' }}"  href="{{ $gallery->caption }}"
-                                                 alt="" style="width: 100%; height: 300px; margin-bottom: 50px; border-radius: 4px;">
+                                                 alt="" style="width: 100%; margin-bottom: 50px; border-radius: 4px;">
                                         </a>
 
                                     @endforeach

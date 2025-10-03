@@ -5,6 +5,8 @@
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
     <!--=============== css  ===============-->
     <link type="text/css" rel="stylesheet" href="/site/css/plugins.css">
     <link type="text/css" rel="stylesheet" href="/site/css/style.css?v=2.1">
@@ -45,6 +47,13 @@
             new google.translate.TranslateElement({pageLanguage: 'vi',includedLanguages:'en,hi,vi,zh-CN', }, 'translate_select');
         }
     </script>
+    <style>
+        html {
+            -webkit-text-size-adjust: 100%; /* iOS Safari, Chrome iOS */
+            text-size-adjust: 100%;         /* tiêu chuẩn, hỗ trợ ở nhiều trình duyệt */
+        }
+
+    </style>
     <style>
         .VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
             display: none !important;
