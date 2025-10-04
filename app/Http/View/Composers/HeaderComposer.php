@@ -33,7 +33,7 @@ class HeaderComposer
             })
             ->orderBy('sort_order')
             ->get();
-        $bannerAd = BannerGroup::query()->with(['galleries.image'])->find(14);
+        $bannerAd = BannerGroup::query()->with(['galleries.image'])->find(13);
 
         $view->with(['config' => $config,
            'postsCategory' => $postsCategory,
