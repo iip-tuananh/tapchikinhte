@@ -150,7 +150,7 @@
 
                 <!-- RIGHT: logo + text -->
                 <div class="apc-right">
-                    <img class="apc-right-logo" src="http://127.0.0.1:8000/site/images/z7047483015434_2a706974b167ccb4878d6a5e2bc51169.png" alt="VAPEC">
+                    <img class="apc-right-logo" src="/site/img/logo_right.png" alt="VAPEC">
                     <div class="apc-right-text">
                         <div class="apc-title-vi">TRUNG TÂM KINH TẾ <br> CHÂU Á - THÁI BÌNH DƯƠNG</div>
                         <div class="apc-title-en">Vietnam Asia-Pacific Economic Center</div>
